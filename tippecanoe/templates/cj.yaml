@@ -1,0 +1,22 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-tippecanoe
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    spec:
+      parallelism: 1
+      completions: 1
+      template:
+        spec:
+          containers:
+          - name: tippecanoe
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: IfNotPresent
+            command:
+            - tippecanoe
+            {{- range .Values.commandArgs }}
+            - {{ . }}
+            {{- end }}    
+          restartPolicy: {{ .Values.restartPolicy }}

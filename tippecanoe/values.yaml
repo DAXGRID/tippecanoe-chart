@@ -1,0 +1,10 @@
+image:
+  repository: openftth/tippecanoe
+  tag: v1.36.0
+
+schedule: "0 0 * * *"
+
+commandArgs:
+  - "--output=/data/output.mbtiles /data/example.geojson"
+
+restartPolicy: Never
