@@ -4,19 +4,45 @@ metadata:
   name: {{ .Release.Name }}-tippecanoe
 spec:
   schedule: "{{ .Values.schedule }}"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
-      parallelism: 1
-      completions: 1
+      backoffLimit: {{ .Values.backoffLimit }}
       template:
         spec:
+          {{- if (eq .Values.gdal.enabled true) }}
+          initContainers:
+          - name: gdal
+            image: {{ .Values.gdal.image.repository }}:{{ .Values.gdal.image.tag }}
+            command:
+            {{- range .Values.gdal.commandArgs }}
+            - {{ . }}
+            {{- end }}    
+          {{- end }}
+            {{- if (eq .Values.storage.enabled true) }}
+            volumeMounts:
+             - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
+               mountPath: {{ .Values.storage.path }}
+            {{- end }}
           containers:
           - name: tippecanoe
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
             imagePullPolicy: IfNotPresent
             command:
-            - tippecanoe
             {{- range .Values.commandArgs }}
             - {{ . }}
-            {{- end }}    
+            {{- end }}
+            {{- if (eq .Values.storage.enabled true) }}
+            volumeMounts:
+             - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
+               mountPath: {{ .Values.storage.path }}
+            {{- end }}
           restartPolicy: {{ .Values.restartPolicy }}
+          {{- if (eq .Values.storage.enabled true) }}
+          volumes:
+           - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
+             persistentVolumeClaim:
+               claimName: {{ .Release.Name }}-{{ .Chart.Name }}
+          {{- end }}

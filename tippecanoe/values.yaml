@@ -5,6 +5,21 @@ image:
 schedule: "0 0 * * *"
 
 commandArgs:
-  - "--output=/data/output.mbtiles /data/example.geojson"
+  - "tippecanoe"
 
 restartPolicy: Never
+backoffLimit: 0
+
+storage:
+  enabled: false
+  size: 1Gi
+  className: ""
+  path: "/data"
+
+gdal:
+  enabled: false
+  image:
+    repository: osgeo/gdal
+    tag: alpine-small-latest
+    commandArgs:
+    - "ogr2ogr"

@@ -1,6 +1,6 @@
 # Tippecanoe helm chart
 
-Helm 3 chart for [Tippecanoe](https://github.com/mapbox/tippecanoe).
+Helm 3 chart for [Tippecanoe](https://github.com/mapbox/tippecanoe). The chart setups a Kubernetes `CronJob` where you can specify how often it should run and what arguments Tippecanoe should be called with. The Helm chart also allows you to run a pre-job using [GDAL](https://github.com/OSGeo/gdal) this can be enabled using the Chart configurations.
 
 ## Install/Upgrade
 
@@ -9,20 +9,3 @@ First add the repo
 helm repo add dax https://daxgrid.github.io/charts/
 helm repo update
 ```
-
-```sh
-helm upgrade --install my-release-name tippecanoe \
-     --set schedule="*0 0 * * *" \
-     --set commandsArgs={"--output=/data/output.mbtiles /data/example.geojson"}
-```
-
-## Parameters
-Parameters for the helm chart.
-
-| Parameter          | Description                  | Default                                                   |
-|--------------------|------------------------------|-----------------------------------------------------------|
-| `image.repository` | The image repository         | `openftth/tippecanoe`                                     |
-| `image.tag`        | The image version tag        | `v1.36.0`                                                 |
-| `schedule`         | How often the job should run | `0 0 * * *` (once a day at midnight)                      |
-| `commandArgs`      | Tippecanoe command arguments | `- "--output=/data/output.mbtiles /data/example.geojson"` |
-| `restartPolicy`    | Restartpolcy                 | `Never`                                                   |
