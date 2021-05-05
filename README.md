@@ -17,7 +17,7 @@ helm upgrade --install my-release-name tippecanoe \
 
 Example of using with a GDAL job before the Tippecanoe job.
 ```sh
-helm upgrade --install my-release-name tippecanoe -n openftth \
+helm upgrade --install my-release-name tippecanoe \
      --set schedule="*/5 * * * *" \
      --set 'commandArgs={tippecanoe, -zg, -o, /data/out.mbtiles, --drop-densest-as-needed, /data/output.geojson, --force}' \
      --set storage.enabled=true \
