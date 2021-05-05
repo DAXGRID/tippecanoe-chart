@@ -38,9 +38,9 @@ Parameters for the helm chart.
 
 #### GDAL
 You also have option to enable GDAL. This is a job that runs before the Tippecanoe cronjob. This can for-example be used to generate `geojson` to be used by Tippecanoe.
-| Parameter               | Description                 | Default              |
-|-------------------------|-----------------------------|----------------------|
-| `gdal.enabled`          | The image repository        | `false`              |
-| `gdal.commandArgs`      | The GDAL commands arguments | `- "ogr2ogr"`        |
-| `gdal.image.repository` | The GDAL image repository   | `osgeo/gdal`         |
-| `gdal.image.tag`        | The GDAL image tag          | `alpine-small-3.2.2` |
+| Parameter               | Description             | Default              |
+|-------------------------|-------------------------|----------------------|
+| `gdal.enabled`          | GDAL enabled            | `false`              |
+| `gdal.commandArgs`      | GDAL commands arguments | `- "ogr2ogr"`        |
+| `gdal.image.repository` | GDAL image repository   | `osgeo/gdal`         |
+| `gdal.image.tag`        | GDAL image tag          | `alpine-small-3.2.2` |
