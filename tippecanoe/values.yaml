@@ -20,6 +20,6 @@ gdal:
   enabled: false
   image:
     repository: osgeo/gdal
-    tag: alpine-small-latest
+    tag: alpine-small-3.2.2
     commandArgs:
     - "ogr2ogr"
