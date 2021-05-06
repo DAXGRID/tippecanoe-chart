@@ -11,8 +11,8 @@ Example of usage.
 ```sh
 helm upgrade --install my-release-name tippecanoe \
      --set schedule="*/5 * * * *" \
-     --set commandArgs={tippecanoe, -zg, -o, /data/out.mbtiles, --drop-densest-as-needed, /data/output.geojson, --force} \
-     --set storage.enabled=true \
+     --set commandArgs='tippecanoe -zg -o /data/out.mbtiles --drop-densest-as-needed /data/output.geojson --force' \
+     --set storage.enabled=true
 ```
 
 Example of using with a GDAL job before the Tippecanoe job.
@@ -28,20 +28,24 @@ helm upgrade --install my-release-name tippecanoe \
 Parameters for the helm chart.
 
 ### Tippecanoe
-| Parameter          | Description                  | Default                              |
-|--------------------|------------------------------|--------------------------------------|
-| `image.repository` | The image repository         | `openftth/tippecanoe`                |
-| `image.tag`        | The image version tag        | `v1.36.0`                            |
-| `schedule`         | How often the job should run | `0 0 * * *` (once a day at midnight) |
-| `commandArgs`      | Tippecanoe command arguments | `tippecanoe`                     |
-| `restartPolicy`    | Restartpolicy                | `Never`                              |
-| `backOffLimit`     | BackoffLimit                 | `0`                                  |
+| Parameter           | Description                  | Default                              |
+|---------------------|------------------------------|--------------------------------------|
+| `image.repository`  | The image repository         | `openftth/tippecanoe`                |
+| `image.tag`         | The image version tag        | `v1.36.0`                            |
+| `schedule`          | How often the job should run | `0 0 * * *` (once a day at midnight) |
+| `commandArgs`       | Tippecanoe command argument  | `tippecanoe`                         |
+| `restartPolicy`     | Restartpolicy                | `Never`                              |
+| `backOffLimit`      | BackoffLimit                 | `0`                                  |
+| `storage.enabled`   | Enable storage               | `false`                              |
+| `storage.size`      | Storage size                 | `1Gi`                                |
+| `storage.className` | Storge classname             | `""`                                 |
+| `storage.path`      | Where the storage is mounted | `/data`                              |
 
 ### GDAL
 You also have option to enable GDAL. This is a job that runs before the Tippecanoe cronjob. This can for-example be used to generate `geojson` to be used by Tippecanoe.
-| Parameter               | Description             | Default              |
-|-------------------------|-------------------------|----------------------|
-| `gdal.enabled`          | GDAL enabled            | `false`              |
-| `gdal.commandArgs`      | GDAL commands arguments | `ogr2ogr`        |
-| `gdal.image.repository` | GDAL image repository   | `osgeo/gdal`         |
-| `gdal.image.tag`        | GDAL image tag          | `alpine-small-3.2.2` |
+| Parameter               | Description            | Default              |
+|-------------------------|------------------------|----------------------|
+| `gdal.enabled`          | GDAL enabled           | `false`              |
+| `gdal.commandArgs`      | GDAL commands argument | `ogr2ogr`            |
+| `gdal.image.repository` | GDAL image repository  | `osgeo/gdal`         |
+| `gdal.image.tag`        | GDAL image tag         | `alpine-small-3.2.2` |
