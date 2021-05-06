@@ -5,7 +5,7 @@ metadata:
 spec:
   schedule: "{{ .Values.schedule }}"
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 0
+  successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
@@ -17,9 +17,9 @@ spec:
           - name: gdal
             image: {{ .Values.gdal.image.repository }}:{{ .Values.gdal.image.tag }}
             command:
-            {{- range .Values.gdal.commandArgs }}
-            - {{ . }}
-            {{- end }}    
+            - /bin/sh
+            - -c
+            - '{{ .Values.gdal.commandArgs }}'
           {{- end }}
             {{- if (eq .Values.storage.enabled true) }}
             volumeMounts:
@@ -31,9 +31,9 @@ spec:
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
             imagePullPolicy: IfNotPresent
             command:
-            {{- range .Values.commandArgs }}
-            - {{ . }}
-            {{- end }}
+            - /bin/sh
+            - -c
+            - '{{ .Values.commandArgs }}'
             {{- if (eq .Values.storage.enabled true) }}
             volumeMounts:
              - name: {{ .Release.Name }}-{{ .Chart.Name }}-data

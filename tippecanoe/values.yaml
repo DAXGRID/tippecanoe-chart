@@ -4,8 +4,7 @@ image:
 
 schedule: "0 0 * * *"
 
-commandArgs:
-  - "tippecanoe"
+commandArgs: "tippecanoe"
 
 restartPolicy: Never
 backoffLimit: 0
@@ -21,5 +20,4 @@ gdal:
   image:
     repository: osgeo/gdal
     tag: alpine-small-3.2.2
-    commandArgs:
-    - "ogr2ogr"
+    commandArgs: "ogr2ogr"
