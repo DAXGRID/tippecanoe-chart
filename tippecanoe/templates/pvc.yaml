@@ -1,4 +1,4 @@
-{{- if (eq .Values.storage.enabled true) }}
+{{ if (eq .Values.storage.enabled true) }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,10 +6,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  {{- if .Values.storage.className }}
+  {{ if .Values.storage.className }}
   storageClassName: {{ .Values.storage.className }}
-  {{- end }}
+  {{ end }}
   resources:
     requests:
       storage: {{ .Values.storage.size }}
-{{- end }}
+{{ end }}
