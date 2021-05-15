@@ -12,7 +12,7 @@ spec:
       backoffLimit: {{ .Values.backoffLimit }}
       template:
         spec:
-          {{- if (eq .Values.gdal.enabled true) }}
+          {{ if (eq .Values.gdal.enabled true) }}
           initContainers:
           - name: gdal
             image: {{ .Values.gdal.image.repository }}:{{ .Values.gdal.image.tag }}
@@ -20,12 +20,12 @@ spec:
             - /bin/sh
             - -c
             - '{{ .Values.gdal.commandArgs }}'
-          {{- end }}
-            {{- if (eq .Values.storage.enabled true) }}
+            {{ if (eq .Values.storage.enabled true) }}
             volumeMounts:
              - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
                mountPath: {{ .Values.storage.path }}
-            {{- end }}
+            {{ end }}
+          {{ end }}
           containers:
           - name: tippecanoe
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -34,15 +34,15 @@ spec:
             - /bin/sh
             - -c
             - '{{ .Values.commandArgs }}'
-            {{- if (eq .Values.storage.enabled true) }}
+            {{ if (eq .Values.storage.enabled true) }}
             volumeMounts:
              - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
                mountPath: {{ .Values.storage.path }}
-            {{- end }}
+            {{ end }}
           restartPolicy: {{ .Values.restartPolicy }}
-          {{- if (eq .Values.storage.enabled true) }}
+          {{ if (eq .Values.storage.enabled true) }}
           volumes:
            - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
              persistentVolumeClaim:
                claimName: {{ .Release.Name }}-{{ .Chart.Name }}
-          {{- end }}
+          {{ end }}
