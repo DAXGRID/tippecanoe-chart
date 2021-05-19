@@ -12,14 +12,14 @@ spec:
       backoffLimit: {{ .Values.backoffLimit }}
       template:
         spec:
-          {{ if (eq .Values.gdal.enabled true) }}
+          {{ if (eq .Values.prejob.enabled true) }}
           initContainers:
           - name: gdal
-            image: {{ .Values.gdal.image.repository }}:{{ .Values.gdal.image.tag }}
+            image: {{ .Values.prejob.image.repository }}:{{ .Values.prejob.image.tag }}
             command:
             - /bin/sh
             - -c
-            - '{{ .Values.gdal.commandArgs }}'
+            - '{{ .Values.prejob.commandArgs }}'
             {{ if (eq .Values.storage.enabled true) }}
             volumeMounts:
              - name: {{ .Release.Name }}-{{ .Chart.Name }}-data

@@ -15,7 +15,7 @@ storage:
   className: ""
   path: "/data"
 
-gdal:
+prejob:
   enabled: false
   image:
     repository: osgeo/gdal
