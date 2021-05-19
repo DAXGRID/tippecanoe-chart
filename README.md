@@ -1,5 +1,6 @@
 # Tippecanoe helm chart
-Helm 3 chart for [Tippecanoe](https://github.com/mapbox/tippecanoe). The chart setups a Kubernetes `CronJob` where you can specify how often it should run and what arguments Tippecanoe should be called with. The Helm chart also allows you to run a pre-job using [GDAL](https://github.com/OSGeo/gdal) this can be enabled using the Chart configurations.
+Helm 3 chart for [Tippecanoe](https://github.com/mapbox/tippecanoe). The chart setups a Kubernetes `CronJob` where you can specify how often it should run and what arguments Tippecanoe should be called with. The Helm chart also allows you to run a pre-job using [GDAL](https://github.com/OSGeo/gdal) or your own configuration. This can be enabled using the Chart configurations.
+
 ## Install/Upgrade
 First add the repo
 ```sh
@@ -41,11 +42,11 @@ Parameters for the helm chart.
 | `storage.className` | Storge classname             | `""`                                 |
 | `storage.path`      | Where the storage is mounted | `/data`                              |
 
-### GDAL
-You also have option to enable GDAL. This is a job that runs before the Tippecanoe cronjob. This can for-example be used to generate `geojson` to be used by Tippecanoe.
-| Parameter               | Description            | Default              |
-|-------------------------|------------------------|----------------------|
-| `gdal.enabled`          | GDAL enabled           | `false`              |
-| `gdal.commandArgs`      | GDAL commands argument | `ogr2ogr`            |
-| `gdal.image.repository` | GDAL image repository  | `osgeo/gdal`         |
-| `gdal.image.tag`        | GDAL image tag         | `alpine-small-3.2.2` |
+### Prejob
+You also have option to enable a prejob. This is a job that runs before the Tippecanoe cronjob. This can for-example be used to generate `geojson` to be used by Tippecanoe. The default settings uses GDAL.
+| Parameter                 | Description              | Default              |
+|---------------------------|--------------------------|----------------------|
+| `prejob.enabled`          | Prejob enabled           | `false`              |
+| `prejob.commandArgs`      | Prejob commands argument | `ogr2ogr`            |
+| `prejob.image.repository` | Prejob image repository  | `osgeo/gdal`         |
+| `prejob.image.tag`        | Prejob image tag         | `alpine-small-3.2.2` |
