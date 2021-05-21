@@ -13,17 +13,21 @@ Example of usage.
 helm upgrade --install my-release-name dax/tippecanoe \
      --set schedule="*/5 * * * *" \
      --set commandArgs='tippecanoe -zg -o /data/out.mbtiles --drop-densest-as-needed /data/output.geojson --force' \
-     --set storage.enabled=true
+     --set storage.enabled=true \
+     --set storage.claimName=my-claim-name \
+     --set storage.path=/data
 ```
 
-Example of using with a GDAL job before the Tippecanoe job.
+Example of using with a GDAL pre-job before the Tippecanoe job.
 ```sh
 helm upgrade --install my-release-name dax/tippecanoe \
      --set schedule="*/5 * * * *" \
      --set commandArgs='tippecanoe -zg -o /data/out.mbtiles --drop-densest-as-needed /data/output.geojson --force' \
      --set storage.enabled=true \
-     --set gdal.enabled=true \
-     --set gdal.commandArgs='ogr2ogr -f GeoJSON /data/output.geojson PG:"host=localhost dbname=MY_DB user=myuser password=mypassword" -sql "select id, ST_Transform(wkb_geometry\, 4326) as wkb_geometry from my_table"'
+     --set storage.claimName=my-claim-name \
+     --set storage.path=/data \
+     --set prejob.enabled=true \
+     --set prejob.commandArgs='ogr2ogr -f GeoJSON /data/output.geojson PG:"host=localhost dbname=MY_DB user=myuser password=mypassword" -sql "select id, ST_Transform(wkb_geometry\, 4326) as wkb_geometry from my_table"'
 ```
 ## Parameters
 Parameters for the helm chart.
