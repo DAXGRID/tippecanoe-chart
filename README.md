@@ -38,9 +38,8 @@ Parameters for the helm chart.
 | `restartPolicy`     | Restartpolicy                | `Never`                              |
 | `backOffLimit`      | BackoffLimit                 | `0`                                  |
 | `storage.enabled`   | Enable storage               | `false`                              |
-| `storage.size`      | Storage size                 | `1Gi`                                |
-| `storage.className` | Storge classname             | `""`                                 |
 | `storage.path`      | Where the storage is mounted | `/data`                              |
+| `storage.claimName` | Storage claimName            | ``                                   |
 
 ### Prejob
 You also have option to enable a prejob. This is a job that runs before the Tippecanoe cronjob. This can for-example be used to generate `geojson` to be used by Tippecanoe. The default settings uses GDAL.

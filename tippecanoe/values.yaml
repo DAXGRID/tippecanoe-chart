@@ -11,13 +11,12 @@ backoffLimit: 0
 
 storage:
   enabled: false
-  size: 1Gi
-  className: ""
+  claimName: ""
   path: "/data"
 
 prejob:
   enabled: false
+  commandArgs: "ogr2ogr"
   image:
     repository: osgeo/gdal
     tag: alpine-small-3.2.2
-    commandArgs: "ogr2ogr"
