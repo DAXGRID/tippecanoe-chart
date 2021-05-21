@@ -22,27 +22,27 @@ spec:
             - '{{ .Values.prejob.commandArgs }}'
             {{ if (eq .Values.storage.enabled true) }}
             volumeMounts:
-             - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
+             - name: {{ .Values.storage.claimName }}-data
                mountPath: {{ .Values.storage.path }}
             {{ end }}
           {{ end }}
           containers:
-          - name: tippecanoe
-            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-            imagePullPolicy: IfNotPresent
-            command:
-            - /bin/sh
-            - -c
-            - '{{ .Values.commandArgs }}'
-            {{ if (eq .Values.storage.enabled true) }}
-            volumeMounts:
-             - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
-               mountPath: {{ .Values.storage.path }}
-            {{ end }}
+            - name: tippecanoe
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/sh
+                - -c
+                - '{{ .Values.commandArgs }}'
+              {{ if (eq .Values.storage.enabled true) }}
+              volumeMounts:
+                - name: {{ .Values.storage.claimName }}-data
+                  mountPath: {{ .Values.storage.path }}
+              {{ end }}
           restartPolicy: {{ .Values.restartPolicy }}
           {{ if (eq .Values.storage.enabled true) }}
           volumes:
-           - name: {{ .Release.Name }}-{{ .Chart.Name }}-data
-             persistentVolumeClaim:
-               claimName: {{ .Release.Name }}-{{ .Chart.Name }}
+            - name: {{ .Values.storage.claimName }}-data
+              persistentVolumeClaim:
+                claimName: {{ .Values.storage.claimName }}
           {{ end }}
